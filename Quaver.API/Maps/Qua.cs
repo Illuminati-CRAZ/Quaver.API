@@ -332,7 +332,7 @@ namespace Quaver.API.Maps
             }
 
             var serializer = new Serializer();
-            var stringWriter = new StringWriter {NewLine = "\r\n"};
+            var stringWriter = new StringWriter {NewLine = "\n"};
             serializer.Serialize(stringWriter, this);
             var serialized = stringWriter.ToString();
 
