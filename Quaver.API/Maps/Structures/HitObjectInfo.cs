@@ -91,6 +91,25 @@ namespace Quaver.API.Maps.Structures
         }
 
         /// <summary>
+        ///     Default constructor
+        /// </summary>
+        public HitObjectInfo() {}
+
+        /// <summary>
+        ///     Copy constructor
+        /// </summary>
+        public HitObjectInfo(HitObjectInfo info)
+        {
+            StartTime = info.StartTime;
+            Lane = info.Lane;
+            EndTime = info.EndTime;
+            HitSound = info.HitSound;
+            KeySounds = new List<KeySoundInfo>(info.KeySounds);
+            EditorLayer = info.EditorLayer;
+            IsEditableInLuaScript = info.IsEditableInLuaScript;
+        }
+
+        /// <summary>
         ///     Gets the timing point this object is in range of.
         /// </summary>
         /// <returns></returns>
