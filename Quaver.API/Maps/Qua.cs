@@ -353,7 +353,7 @@ namespace Quaver.API.Maps
             // the bookmarks in the file.
             if (Bookmarks.Count == 0)
                 Bookmarks = null;
-            
+
             var serializer = new Serializer();
             var stringWriter = new StringWriter {NewLine = "\r\n"};
             serializer.Serialize(stringWriter, this);
@@ -952,7 +952,7 @@ namespace Quaver.API.Maps
         public void MirrorHitObjects()
         {
             var keyCount = GetKeyCount();
-            
+
             for (var i = 0; i < HitObjects.Count; i++)
             {
                 var temp = HitObjects[i];
@@ -1344,6 +1344,19 @@ namespace Quaver.API.Maps
             SliderVelocities = denormalizedScrollVelocities;
         }
 
+        public void ScaleSVs(float scaleFactor)
+        {
+            var svs = new List<SliderVelocityInfo>(SliderVelocities.Count);
+
+            foreach (var sv in SliderVelocities)
+            {
+                var multiplier = (sv.Multiplier - 1) * scaleFactor + 1;
+                svs.Add(new SliderVelocityInfo{ StartTime = sv.StartTime, Multiplier = multiplier });
+            }
+
+            SliderVelocities = svs;
+        }
+
         /// <summary>
         ///     Returns a Qua with normalized SVs.
         /// </summary>
@@ -1365,6 +1378,14 @@ namespace Quaver.API.Maps
             var qua = (Qua) MemberwiseClone();
             // Relies on DenormalizeSVs not changing anything within the by-reference members (but rather creating a new List).
             qua.DenormalizeSVs();
+            return qua;
+        }
+
+        public Qua WithScaledSVs(float scaleFactor)
+        {
+            var qua = (Qua) MemberwiseClone();
+            // Relies on DenormalizeSVs not changing anything within the by-reference members (but rather creating a new List).
+            qua.ScaleSVs(scaleFactor);
             return qua;
         }
 
